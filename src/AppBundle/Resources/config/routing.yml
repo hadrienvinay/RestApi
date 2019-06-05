@@ -1,0 +1,15 @@
+rest_accounts_message:
+  path:      /send/1
+  defaults: { _controller: AppBundle:SendMessage:getAccounts }
+
+rest_account_message:
+  path:      /send/2
+  defaults: { _controller: AppBundle:SendMessage:getAccount }
+
+account_create:
+  path:    /add
+  defaults: { _controller: AppBundle:Account:addAccount }
+
+payments_show:
+  path:    /show_payments
+  defaults: { _controller: AppBundle:InstantPayment:showPayments }

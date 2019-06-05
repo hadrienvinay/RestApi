@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Rest API{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    </head>
+    <body class="container">
+    {% block body %}{% endblock %}
+        <h1 class="text-center">
+            Sandbox avec Kanest
+        </h1>
+    <a class="btn btn-primary" href="{{ path('rest_accounts_message') }}">v1/accounts</a>
+    <a class="btn btn-primary" href="{{ path('rest_account_message') }}">v1/accounts/{id}</a>
+    <div>
+        <br>
+        <h3>Header</h3>
+        <ul class="list-group">
+        {% for header in header %}
+            <li class="list-group-item">{{ header }}</li>
+            <br>
+        {% endfor %}
+        </ul>
+        <br>
+        <h3>Réponse</h3>
+        <pre class="border border-secondary">
+            {{ response|json_encode(constant('JSON_PRETTY_PRINT')) }}
+        </pre>
+
+    </div>
+    {% block javascripts %}{% endblock %}
+    </body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Payments Request{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('images/logo.png') }}" />
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        {#jQuery et css pour dataTables#}
+        <link rel="stylesheet" href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+        <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
+
+     </head>
+    <body id="body">
+    <div class="header">
+        <a href="{{ path('payments_show') }}" class="logo"><img class="logo_img" src="{{ asset('images/LogoGalitt.jpg') }}"></a>
+        <div class="header-right">
+            <a href="#home">Home</a>
+            <a class="active" href="{{ path('payments_show') }}">InstantPayment</a>
+        </div>
+    </div>
+    <br>
+    <div class="container">
+        <h1 class="text-center">
+            Instant Payment History
+        </h1>
+    <br>
+        <div id="myBloc">
+            <table id="myTable" class="table table-bordered dataTable">
+                <thead>
+                <tr>
+                    <th scope="col">n°</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Iban de l'émetteur</th>
+                    <th scope="col">Iban du bénéficiaire</th>
+                    <th scope="col">Montant</th>
+                    <th scope="col">Description</th>
+                </tr>
+                </thead>
+                <tbody id="bodyTable">
+                {% for payment in payments %}
+                <tr>
+                    <th scope="row">{{ loop.index }}</th>
+                    <td>{{ payment.requestDate|date('d/m/Y H:i:s') }}</td>
+                    <td>{{ payment.originatorIban }}</td>
+                    <td>{{ payment.beneficiaryIban }}</td>
+                    <td>{{ payment.transactionAmount }} €</td>
+                    <td>{{ payment.description }}</td>
+                </tr>
+                    {% if loop.last %}
+                        <div id="nbIndex" data_index="{{ loop.index }}"></div>
+                    {% endif %}
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+        {% block javascripts %}
+        <script>
+            $(document).ready( function () {
+                //edit english datatables translate and clickable
+                $('#myTable').DataTable();
+
+                setInterval(function(){
+                    $.ajax({
+                        url: "http://localhost/rest_api/web/app_dev.php/getNumberPayment",
+                        method: "GET",
+                        dataType: 'json',
+                        success: function (d) {
+                            var total = $("#nbIndex").attr("data_index");
+                            if(d.size==total) {
+                            }
+                            else{
+                                $("#body").load("#bodyTable");
+                            }
+                        }
+                    });
+                    },30000 );
+
+            });
+        </script>
+        {% endblock %}
+    </body>
+</html>
