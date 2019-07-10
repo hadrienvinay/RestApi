@@ -28,7 +28,7 @@ class FundController extends Controller
         if (empty($data)) {
             $error_model = array(
                 "timestamp" => $date,
-                "code" => 404,
+                "statusCode" => 404,
                 "error" => "Bad Request",
                 "message" => "Data send is empty",
                 "path" => "/v1/funds-confirmations"

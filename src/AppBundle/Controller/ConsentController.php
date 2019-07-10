@@ -24,17 +24,18 @@ class ConsentController extends Controller
         $data = json_decode($request->getContent(), true);
         $date = date('Y-m-d');
 
-        //tests on message receive
+        /*tests on message receive
         if (empty($data)) {
             $error_model = array(
-                "timestamp" => $date,
-                "code" => 404,
+                "timestamp" => '"'.$date.'"',
+                "statusCode" => 404,
                 "error" => "Bad Request",
                 "message" => "Data send is empty",
-                "path" => "/v1/funds-confirmations"
+                "path" => "/v1/consents"
             );
             return new JsonResponse($error_model);
         }
+        */
 
         $response = new Response();
         $response->setStatusCode(201);
