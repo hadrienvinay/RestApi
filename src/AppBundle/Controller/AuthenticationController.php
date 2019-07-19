@@ -23,7 +23,7 @@ class AuthenticationController extends Controller
         if(isset($_GET['scope'])) $scope = $_GET['scope'];
         if(isset($_GET['response_type'])) $responseType = $_GET['response_type'];
 
-        $date = new \DateTime();
+        $date = date('Y-m-d');
 
         if($clientId != "8WrD5PFWyVTJKbrnMwAD70oFLYzB5ovX"){
             $error_model = array(
@@ -33,7 +33,7 @@ class AuthenticationController extends Controller
                 "message" => "Wrong client id",
                 "path" => "/authorize"
             );
-            return new JsonResponse($error_model);
+            return new JsonResponse($error_model,400);
         }
         $code = "12345678";
 
@@ -49,7 +49,7 @@ class AuthenticationController extends Controller
     public function PostAccessToken(Request $request)
     {
         $data = json_decode($request->getContent(), true);
-        $date = new \DateTime();
+        $date = date('Y-m-d');
 
         $grantType = $data['grant_type'];
         $clientId = $data['client_id'];
@@ -57,7 +57,6 @@ class AuthenticationController extends Controller
         $accessToken = "xxx";
         $refreshToken = "yyy";
 
-        echo $clientId;
         if($clientId != "8WrD5PFWyVTJKbrnMwAD70oFLYzB5ovX"){
             $error_model = array(
                 "timestamp" => $date,
@@ -66,11 +65,12 @@ class AuthenticationController extends Controller
                 "message" => "Wrong client id",
                 "path" => "/token"
             );
-            return new JsonResponse($error_model);
+            return new JsonResponse($error_model,400);
         }
 
         if ($grantType=="authorization_code"){
             $code = $data['code'];
+            $redirect_uri = $data['redirect_uri'];
 
             if($code != "12345678"){
                 $error_model = array(
@@ -80,7 +80,18 @@ class AuthenticationController extends Controller
                     "message" => "Wrong code for this client id",
                     "path" => "/token"
                 );
-                return new JsonResponse($error_model);
+                return new JsonResponse($error_model,400);
+            }
+
+            if($redirect_uri != "http://localhost/rest_api/web/"){
+                $error_model = array(
+                    "timestamp" => $date,
+                    "statusCode" => 400,
+                    "error" => "Bad Request",
+                    "message" => "Redirect Uri is not correct",
+                    "path" => "/token"
+                );
+                return new JsonResponse($error_model,400);
             }
 
             $formatted = array(
@@ -115,7 +126,7 @@ class AuthenticationController extends Controller
                 "message" => "Invalid grant_type",
                 "path" => "/token"
             );
-            return new JsonResponse($error_model);
+            return new JsonResponse($error_model,400);
         }
 
         return new JsonResponse($formatted,200);

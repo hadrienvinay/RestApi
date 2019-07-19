@@ -18,13 +18,13 @@ class ConsentController extends Controller
     public function PutConsentsAction(Request $request)
     {
         /**
-         * Status response : 200
+         * Status response : 201
          * No Specific Header
          */
         $data = json_decode($request->getContent(), true);
         $date = date('Y-m-d');
 
-        /*tests on message receive
+        /*//Tests on message receive
         if (empty($data)) {
             $error_model = array(
                 "timestamp" => '"'.$date.'"',
@@ -33,7 +33,7 @@ class ConsentController extends Controller
                 "message" => "Data send is empty",
                 "path" => "/v1/consents"
             );
-            return new JsonResponse($error_model);
+            return new JsonResponse($error_model,404);
         }
         */
 
