@@ -23,11 +23,11 @@ class AuthenticationController extends Controller
         if(isset($_GET['scope'])) $scope = $_GET['scope'];
         if(isset($_GET['response_type'])) $responseType = $_GET['response_type'];
 
-        $date = date('Y-m-d');
+        $date = new \DateTime('NOW');
 
         if($clientId != "8WrD5PFWyVTJKbrnMwAD70oFLYzB5ovX"){
             $error_model = array(
-                "timestamp" => $date,
+                "timestamp" => "'".$date->format('c')."'",
                 "statusCode" => 400,
                 "error" => "Bad Request",
                 "message" => "Wrong client id",
@@ -49,7 +49,7 @@ class AuthenticationController extends Controller
     public function PostAccessToken(Request $request)
     {
         $data = json_decode($request->getContent(), true);
-        $date = date('Y-m-d');
+        $date = new \DateTime('NOW');
 
         $grantType = $data['grant_type'];
         $clientId = $data['client_id'];
@@ -59,7 +59,7 @@ class AuthenticationController extends Controller
 
         if($clientId != "8WrD5PFWyVTJKbrnMwAD70oFLYzB5ovX"){
             $error_model = array(
-                "timestamp" => $date,
+                "timestamp" => "'".$date->format('c')."'",
                 "statusCode" => 400,
                 "error" => "Bad Request",
                 "message" => "Wrong client id",
@@ -74,7 +74,7 @@ class AuthenticationController extends Controller
 
             if($code != "12345678"){
                 $error_model = array(
-                    "timestamp" => $date,
+                    "timestamp" => "'".$date->format('c')."'",
                     "statusCode" => 400,
                     "error" => "Bad Request",
                     "message" => "Wrong code for this client id",
@@ -85,7 +85,7 @@ class AuthenticationController extends Controller
 
             if($redirect_uri != "http://localhost/rest_api/web/"){
                 $error_model = array(
-                    "timestamp" => $date,
+                    "timestamp" => "'".$date->format('c')."'",
                     "statusCode" => 400,
                     "error" => "Bad Request",
                     "message" => "Redirect Uri is not correct",
@@ -120,7 +120,7 @@ class AuthenticationController extends Controller
         }
         else{
             $error_model = array(
-                "timestamp" => $date,
+                "timestamp" => "'".$date->format('c')."'",
                 "statusCode" => 400,
                 "error" => "Not Found",
                 "message" => "Invalid grant_type",

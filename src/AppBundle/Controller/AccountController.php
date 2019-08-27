@@ -151,8 +151,8 @@ class AccountController extends Controller
                     "amount" => strval($balance->GetAmount())
                 ),
                 "balanceType" => $balance->getType(),
-                "lastChangeDateTime" => $balance->getLastChangeDateTime()->format("Y-m-d"),
-                "referenceDate" => $balance->getReferenceDate()->format("Y-m-d"),
+                "lastChangeDateTime" => "'". $balance->getLastChangeDateTime()->format("c") ."'",
+                "referenceDate" => "'". $balance->getReferenceDate()->format("Y-m-d") ."'",
                 "lastCommittedTransaction" => $balance->getLastTransaction()
             ];
         }
@@ -211,9 +211,9 @@ class AccountController extends Controller
                 ),
                 "creditDebitIndicator" => $transaction->getCreditDebitIndicator(),
                 "status" => $transaction->getStatus(),
-                "bookingDate" => $transaction->getBookingDate()->format("Y-m-d"),
-                "valueDate" => $transaction->getValueDate()->format("Y-m-d"),
-                "transactionDate" => $transaction->getTransactionDate()->format("Y-m-d"),
+                "bookingDate" => "'". $transaction->getBookingDate()->format("Y-m-d") ."'",
+                "valueDate" => "'". $transaction->getValueDate()->format("Y-m-d") ."'",
+                "transactionDate" => "'". $transaction->getTransactionDate()->format("Y-m-d") ."'",
                 "remittanceInformation" => $transaction->getRemittanceInformation()
             ];
         }

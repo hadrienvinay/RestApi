@@ -23,11 +23,11 @@ class FundController extends Controller
          * No Specific Header
          */
         $data = json_decode($request->getContent(), true);
-        $date = date('Y-m-d');
+        $date = new \DateTime('NOW');
         //tests on message receive
         if (empty($data)) {
             $error_model = array(
-                "timestamp" => $date,
+                "timestamp" => "'".$date->format('c')."'",
                 "statusCode" => 404,
                 "error" => "Bad Request",
                 "message" => "Data send is empty",
